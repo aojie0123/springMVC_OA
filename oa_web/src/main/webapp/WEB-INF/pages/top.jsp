@@ -148,4 +148,3 @@
         </div>
     </aside>
     <section id="content_wrapper">
-        <section id="content" class="table-layout animated fadeIn">

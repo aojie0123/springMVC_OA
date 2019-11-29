@@ -1,14 +1,61 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 雨木科技
-  Date: 2019/11/26
-  Time: 16:57
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <jsp:include page="top.jsp"/>
-
+<script>
+    /********异步提交函数**************************/
+//form支持多表单提交，中间用,隔开，url为提交地址
+    function subForm(form,url){
+        //防止高频点击
+        var date = new Date();
+        var time = date.getTime();//毫秒时间戳
+        if(typeof minTime == "undefined"){
+            var finger = 2;
+            minTime = time+2000;//下次点击的最小时间
+            console.log("定义minTime");
+        }else{
+            if(minTime && time < minTime){
+                var finger = 1;
+                warn("操作过于频繁");
+                console.log("time:"+time+"，mintime:"+minTime+"，差额："+(time-minTime));
+            }else{
+                var finger = 2;
+                console.log("time:"+time+"，mintime:"+minTime+"，多出："+(time-minTime));
+                minTime = time+2000;//下次点击的最小时间
+            }
+        }
+        if(finger == 2){
+            //串联表单
+            var formName = form.split(",");
+            var serialize = "";
+            var a = "";
+            console.log(formName.length);
+            for(var i=0;i<formName.length;i++){
+                if(serialize == ""){
+                    a = "";
+                }else{
+                    a = "&";
+                }
+                if(formName[i] != ""){
+                    serialize += a + $("[name="+formName[i]+"]").serialize();
+                }
+            }
+            //异步提交数据
+            $.post(url,serialize,function(data){
+                //console.log(data);
+                if(data.warn == 2){
+                    if(data.href){//如果异步返回的json参数中定义了重定向url，则跳转到本url
+                        window.location.href = data.href;
+                    }else{
+                        window.location.reload();
+                    }
+                }else{
+                    warn(data.warn);
+                }
+            },"json");
+        }
+    }
+</script>
+<section id="content" class="table-layout animated fadeIn">
 <div class="tray tray-center">
     <div class="content-header">
         <h2> 部门列表 </h2>
@@ -23,7 +70,7 @@
                             <button type="button" class="btn btn-default light">
                                 <i class="fa fa-refresh"></i>
                             </button>
-                            <button type="button" class="btn btn-default light">
+                            <button type="button" class="btn btn-default light" onclick="subForm('listForm', '/department/batchRemove')">
                                 <i class="fa fa-trash"></i>
                             </button>
                             <button type="button" class="btn btn-default light">
@@ -44,6 +91,7 @@
                 </div>
             </div>
             <div class="panel-body pn">
+                <form name="listForm">
                 <table id="message-table" class="table admin-form theme-warning tc-checkbox-1">
                     <thead>
                     <tr class="">
@@ -59,7 +107,7 @@
                         <tr class="message-unread">
                             <td class="hidden-xs">
                                 <label class="option block mn">
-                                    <input type="checkbox" name="mobileos" value="FR">
+                                    <input type="checkbox" name="sn[]" value="${department.sn}">
                                     <span class="checkbox mn"></span>
                                 </label>
                             </td>
@@ -72,59 +120,12 @@
                             </td>
                         </tr>
                     </c:forEach>
-<%--                    <tr class="message-unread">--%>
-<%--                        <td class="hidden-xs">--%>
-<%--                            <label class="option block mn">--%>
-<%--                                <input type="checkbox" name="mobileos" value="FR">--%>
-<%--                                <span class="checkbox mn"></span>--%>
-<%--                            </label>--%>
-<%--                        </td>--%>
-<%--                        <td>10001</td>--%>
-<%--                        <td>总经理办公室</td>--%>
-<%--                        <td>星星大厦E座1201</td>--%>
-<%--                        <td>--%>
-<%--                            <a href="/department/to_update?sn=10001">编辑</a>--%>
-<%--                            <a href="/department/remove?sn=10001">删除</a>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-
-<%--                    <tr class="message-unread">--%>
-<%--                        <td class="hidden-xs">--%>
-<%--                            <label class="option block mn">--%>
-<%--                                <input type="checkbox" name="mobileos" value="FR">--%>
-<%--                                <span class="checkbox mn"></span>--%>
-<%--                            </label>--%>
-<%--                        </td>--%>
-<%--                        <td>10002</td>--%>
-<%--                        <td>财务部</td>--%>
-<%--                        <td>星星大厦E座1202</td>--%>
-<%--                        <td>--%>
-<%--                            <a href="/department/to_update?sn=10002">编辑</a>--%>
-<%--                            <a href="/department/remove?sn=10002">删除</a>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-
-<%--                    <tr class="message-unread">--%>
-<%--                        <td class="hidden-xs">--%>
-<%--                            <label class="option block mn">--%>
-<%--                                <input type="checkbox" name="mobileos" value="FR">--%>
-<%--                                <span class="checkbox mn"></span>--%>
-<%--                            </label>--%>
-<%--                        </td>--%>
-<%--                        <td>10003</td>--%>
-<%--                        <td>事业部</td>--%>
-<%--                        <td>星星大厦E座1101</td>--%>
-<%--                        <td>--%>
-<%--                            <a href="/department/to_update?sn=10003">编辑</a>--%>
-<%--                            <a href="/department/remove?sn=10003">删除</a>--%>
-<%--                        </td>--%>
-<%--                    </tr>--%>
-
                     </tbody>
                 </table>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
+</section>
 <jsp:include page="bottom.jsp"/>
