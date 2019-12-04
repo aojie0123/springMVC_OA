@@ -10,11 +10,13 @@ public class ClaimVoucher {
     private String nextDealSn;
     private double totalAmount;
     private String status;
+    private Employee creater;
+    private Employee dealer;
 
     public ClaimVoucher() {
     }
 
-    public ClaimVoucher(int id, String cause, String createSn, Date createTime, String nextDealSn, double totalAmount, String status) {
+    public ClaimVoucher(int id, String cause, String createSn, Date createTime, String nextDealSn, double totalAmount, String status, Employee creater, Employee dealer) {
         this.id = id;
         this.cause = cause;
         this.createSn = createSn;
@@ -22,6 +24,8 @@ public class ClaimVoucher {
         this.nextDealSn = nextDealSn;
         this.totalAmount = totalAmount;
         this.status = status;
+        this.creater = creater;
+        this.dealer = dealer;
     }
 
     public int getId() {
@@ -80,16 +84,19 @@ public class ClaimVoucher {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "ClaimVoucher{" +
-                "id=" + id +
-                ", cause='" + cause + '\'' +
-                ", createSn='" + createSn + '\'' +
-                ", createTime=" + createTime +
-                ", nextDealSn='" + nextDealSn + '\'' +
-                ", totalAmount=" + totalAmount +
-                ", status='" + status + '\'' +
-                '}';
+    public Employee getCreater() {
+        return creater;
+    }
+
+    public void setCreater(Employee creater) {
+        this.creater = creater;
+    }
+
+    public Employee getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Employee dealer) {
+        this.dealer = dealer;
     }
 }

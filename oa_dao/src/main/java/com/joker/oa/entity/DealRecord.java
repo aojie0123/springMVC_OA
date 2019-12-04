@@ -10,11 +10,12 @@ public class DealRecord {
     private String dealWay;
     private String dealResult;
     private String comment;
+    private Employee dealer;
 
     public DealRecord() {
     }
 
-    public DealRecord(int id, int claimVoucherId, String dealSn, Date dealTime, String dealWay, String dealResult, String comment) {
+    public DealRecord(int id, int claimVoucherId, String dealSn, Date dealTime, String dealWay, String dealResult, String comment, Employee dealer) {
         this.id = id;
         this.claimVoucherId = claimVoucherId;
         this.dealSn = dealSn;
@@ -22,6 +23,7 @@ public class DealRecord {
         this.dealWay = dealWay;
         this.dealResult = dealResult;
         this.comment = comment;
+        this.dealer = dealer;
     }
 
     public int getId() {
@@ -80,16 +82,11 @@ public class DealRecord {
         this.comment = comment;
     }
 
-    @Override
-    public String toString() {
-        return "DealRecord{" +
-                "id=" + id +
-                ", claimVoucherId=" + claimVoucherId +
-                ", dealSn='" + dealSn + '\'' +
-                ", dealTime=" + dealTime +
-                ", dealWay='" + dealWay + '\'' +
-                ", dealResult='" + dealResult + '\'' +
-                ", comment='" + comment + '\'' +
-                '}';
+    public Employee getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(Employee dealer) {
+        this.dealer = dealer;
     }
 }
