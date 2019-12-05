@@ -28,15 +28,22 @@
     <delete id="delete" parameterType="Integer">
         DELETE FROM claim_voucher WHERE id = #{id}
     </delete>
+    <select id="select" resultMap="claimVoucher" parameterType="Integer">
+        SELECT cv.*, ce.name cname, ce.post cpost, d.name dname, d.post dpost
+        FROM claim_voucher cv
+        LEFT JOIN employee ce ON ce.sn = cv.create_sn
+        LEFT JOIN employee d ON d.sn = cv.next_deal_sn
+        WHERE cv.id = #{id}
+    </select>
     <select id="selectByCreateSn" resultMap="claimVoucher" parameterType="String">
-        SELECT cv.*, ce.name cname, ce.post. cpost, d.name dname, d.post dpost
+        SELECT cv.*, ce.name cname, ce.post cpost, d.name dname, d.post dpost
         FROM claim_voucher cv
         LEFT JOIN employee ce ON ce.sn = cv.create_sn
         LEFT JOIN employee d ON d.sn = cv.next_deal_sn
         WHERE cv.create_sn = #{csn} ORDER BY cv.create_time DESC
     </select>
     <select id="selectByNextDealSn" resultMap="claimVoucher" parameterType="String">
-        SELECT cv.*, ce.name cname, ce.post. cpost, d.name dname, d.post dpost
+        SELECT cv.*, ce.name cname, ce.post cpost, d.name dname, d.post dpost
         FROM claim_voucher cv
         LEFT JOIN employee ce ON ce.sn = cv.create_sn
         LEFT JOIN employee d ON d.sn = cv.next_deal_sn

@@ -18,7 +18,7 @@
     <delete id="delete" parameterType="Integer">
         DELETE FROM claim_voucher_item WHERE id = #{id}
     </delete>
-    <select id="selectByClaimVoucher" parameterType="Integer">
+    <select id="selectByClaimVoucher" parameterType="Integer" resultMap="claimVoucherItem">
         SELECT * FROM claim_voucher_item WHERE claim_voucher_id = #{cvid} ORDER BY id ASC
     </select>
 </mapper>

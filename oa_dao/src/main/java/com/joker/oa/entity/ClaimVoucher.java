@@ -1,11 +1,14 @@
 package com.joker.oa.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class ClaimVoucher {
     private int id;
     private String cause;
     private String createSn;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createTime;
     private String nextDealSn;
     private double totalAmount;

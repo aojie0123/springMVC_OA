@@ -18,7 +18,7 @@
     <insert id="insert" parameterType="DealRecord" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO deal_record (claim_voucher_id, deal_sn, deal_time, deal_way, deal_result, comment) VALUES (#{claimVoucherId}, #{dealSn}, #{dealTime}, #{dealWay}, #{dealResult}, #{comment})
     </insert>
-    <select id="selectByClaimVoucher" parameterType="Integer">
+    <select id="selectByClaimVoucher" parameterType="Integer" resultMap="dealRecord">
         SELECT dr.*, de.name dname, de.post dpost
         FROM deal_record dr
         LEFT JOIN employee de
